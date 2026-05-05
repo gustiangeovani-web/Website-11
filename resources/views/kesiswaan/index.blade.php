@@ -54,6 +54,33 @@
       </div>
     </div>
   </section>
+
+  {{-- Agenda Section --}}
+  <section id="agenda-section" class="agenda-kesiswaan" style="padding: 40px 20px;">
+    <div class="section-header">
+      <h1>Agenda Sekolah</h1>
+    </div>
+    <div class="list-agenda">
+      @php
+        $agendaList = \Illuminate\Support\Facades\DB::table('agenda')
+          ->where('tanggal', '>=', date('Y-m-d'))
+          ->orderBy('tanggal')
+          ->take(5)
+          ->get();
+      @endphp
+      @forelse($agendaList as $a)
+      <div class="kartuAgenda">
+        <div class="fotoAgenda"><i class="fi fi-rr-calendar"></i></div>
+        <div class="judulAgenda">
+          <p><strong>{{ $a->judul }}</strong></p>
+          <span>{{ date('d M Y', strtotime($a->tanggal)) }}</span>
+        </div>
+      </div>
+      @empty
+      <p style="text-align:center;">Belum ada agenda mendatang.</p>
+      @endforelse
+    </div>
+  </section>
 @endsection
 
 @section('scripts')
